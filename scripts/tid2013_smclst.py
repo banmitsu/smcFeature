@@ -7,24 +7,10 @@ import os, sys
 global DATA_label
 DATA_label = {}
 
-
-indexfile = sys.argv[1]
-# change!
-suffix_dir = sys.argv[2]
-
-def _label_MOS_(item):
-	return np.str_(DATA_label[item])
-
-def _label_DISTORTION_(item):
-	return item.split('_')[1]
-
-def _create_caffe_list_():
-	file = open("caffe_iqa_input.lst", "w+")
-	for item in DATA_label:
-		label = _label_MOS_(item)
-		label = _label_DISTORTION_(item)
-		file.write(suffix_dir+item+' '+label+'\n')
-
+try:
+	indexfile = sys.argv[1]
+except:
+	print "tid2013_smclst.py ../tid2013/mos_with_names.txt"
 
 def _create_smc_list_():
 	file = open("smc_lst.txt", "w+")
@@ -41,6 +27,5 @@ if __name__ == '__main__':
 		lst = np.genfromtxt(f, dtype=[('score', float), ('filename', np.str_, 1024)], delimiter=' ')
 	for item in lst:
 		DATA_label[item['filename']] = item['score']
-	_create_caffe_list_()
 	_create_smc_list_()
 
