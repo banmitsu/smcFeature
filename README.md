@@ -14,3 +14,5 @@ FORMAT of smc_lst.txt:
 
 path/to/reference/image> path/to/distorted/image /path/to/saved/feature \n
 
+Feature download: https://drive.google.com/file/d/0B1rhqS7SXhCcczd4Y1BwckJrdmM/view?usp=sharing
+
