@@ -7,30 +7,43 @@ import os, sys
 global DATA_label
 DATA_label = {}
 
-# indexfile="mos_with_names.txt"
-indexfile = sys.argv[1]
-# suffix_dir="/home/fj/felis/tid2013/distorted_images/"
-suffix_dir = sys.argv[2]
 
 def _label_MOS_(item):
-	return np.str_(DATA_label[item])
+	return np.str_(int(round(DATA_label[item])))
 
 def _label_DISTORTION_(item):
 	return item.split('_')[1]
 
-def _create_caffe_list_():
+def _label_switch_(label_type, item):
+	if label_type == 'MOS':
+		label = _label_MOS_(item)
+	if label_type == 'DIS':
+		label = _label_DISTORTION_(item)
+	return label
+
+def _create_caffe_list_(suffix_dir):
 	file = open("caffe_iqa_input.lst", "w+")
 	for item in DATA_label:
-		label = _label_MOS_(item)
-		label = _label_DISTORTION_(item)
-		file.write(suffix_dir+item+' '+label+'\n')
+		label = _label_switch_('MOS', item)
+		feature= item.split('.')[0]+'.smc'
+		file.write(suffix_dir+feature+' '+label+'\n')
 	file.close()
 
 if __name__ == '__main__':
-	with open(indexfile) as f:
+	arg_names = ['command', 'indexfile', 'suffix_dir']
+	args = dict(zip(arg_names, sys.argv))
+	if len(args) < 3:
+		print "Error command:..."
+		print "python tid2013indexer.py ../tid2013/mos_with_names.txt /path/to/features/"
+		sys.exit()
+	print "Indexfile: ", args['indexfile'], "Suffix_dir: ", args['suffix_dir']
+	#sys.exit()
+
+	with open(args['indexfile']) as f:
 		lst = np.genfromtxt(f, dtype=[('score', float), ('filename', np.str_, 1024)], delimiter=' ')
 	for item in lst:
 		DATA_label[item['filename']] = item['score']
-	_create_caffe_list_()
+
+	_create_caffe_list_(args['suffix_dir'])
 
 
