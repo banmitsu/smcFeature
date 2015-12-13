@@ -7,7 +7,7 @@ fclose(fileID);
 
 n = cellfun('length',C);
 
-for i=1869:1:n(1)
+for i=1:1:n(1)
     I  = imread(C{1,1}{i,1});
     I_p= imread(C{1,2}{i,1});
     I  = rgb2gray(I);
