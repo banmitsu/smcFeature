@@ -13,19 +13,25 @@ except:
 	print "tid2013_smclst.py ../tid2013/mos_with_names.txt"
 
 def _create_smc_list_():
-	file = open("smc_lst.txt", "w+")
+
 	for item in DATA_label:
-		ref = item.split('_')[0]
-		feat= item.split('.')[0]
-		ref_img = "/tid2013/reference_images/"+ref+".BMP"
-		dit_img = "/tid2013/distorted_images/"+item
-		dir_feat= "/tid2013/features/"+feat+".smc"
-		file.write(ref_img+' '+dit_img+' '+dir_feat+'\n')
+		print item
+		break
+
+
 
 if __name__ == '__main__':
+	file = open("smc_lst.txt", "w+")
 	with open(indexfile) as f:
 		lst = np.genfromtxt(f, dtype=[('score', float), ('filename', np.str_, 1024)], delimiter=' ')
 	for item in lst:
-		DATA_label[item['filename']] = item['score']
-	_create_smc_list_()
+		ref = item['filename'].split('_')[0]
+		feat= item['filename'].split('.')[0]
+		ref_img = "/tid2013/reference_images/"+ref+".BMP"
+		dit_img = "/tid2013/distorted_images/"+item['filename']
+		dir_feat= "/tid2013/features/"+feat+".smc"
+		score   = np.str_(item['score'])
+		file.write(score+' '+ref_img+' '+dit_img+' '+dir_feat+'\n')
+		#DATA_label[item['filename']] = item['score']
+	#_create_smc_list_()
 
