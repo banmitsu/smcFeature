@@ -12,14 +12,6 @@ try:
 except:
 	print "tid2013_smclst.py ../tid2013/mos_with_names.txt"
 
-def _create_smc_list_():
-
-	for item in DATA_label:
-		print item
-		break
-
-
-
 if __name__ == '__main__':
 	file = open("smc_lst.txt", "w+")
 	with open(indexfile) as f:
@@ -32,6 +24,4 @@ if __name__ == '__main__':
 		dir_feat= "/tid2013/features/"+feat+".smc"
 		score   = np.str_(item['score'])
 		file.write(score+' '+ref_img+' '+dit_img+' '+dir_feat+'\n')
-		#DATA_label[item['filename']] = item['score']
-	#_create_smc_list_()
 
